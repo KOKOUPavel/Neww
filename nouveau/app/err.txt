@@ -1,3 +1,21 @@
 // on m'a envoyé un select top on va mettre ça sous forme de csv,  faire un module ou on peut selectionner un fichier et importé,
 quand on importe on fait un apercu du fichier, donc quand on vient et on fais chargé la on importe le fichier. Quand on importe on affiche ça dans une table d'abord; l'appercu du fichier qui a été chargé.
 Et après on crée un bouton exporte vers la base de donné. Quand on va cliquer  ça...
+
+
+
+Le retour,
+
+SELECT TOP (10) [id]
+      ,[imei]
+      ,[date]
+      ,[created_at]
+      ,[equipment]
+      ,[option]
+      ,[available]
+      ,[sold]
+      ,[sale_date]
+      ,[price]
+      ,[ratioMontantJour]
+  FROM [DB_PHONE_FINANCING_TEST_V2].[dbo].[equipment]
+
