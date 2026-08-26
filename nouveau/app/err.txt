@@ -1,0 +1,19 @@
+tg_dsi_kpavel@BJDSIPDK15:~/Neww/nouveau$ npm run dev 
+
+> nouveau@0.1.0 dev
+> next dev
+
+▲ Next.js 16.3.3 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://10.255.255.254:3000
+✓ Ready in 560ms
+✓ Running next.config.ts took 49ms
+
+⨯ Error: The default export is not a React Component in "/page"
+    at ignore-listed frames
+⨯ Error: The default export is not a React Component in "/page"
+    at ignore-listed frames {
+  page: '/'
+}
+ GET / 500 in 1251ms (next.js: 1093ms, application-code: 158ms)
+[browser] Uncaught Error: The default export is not a React Component in "/page"
