@@ -1,17 +1,2 @@
-✓ Running next.config.ts took 47ms
-
- GET /login 200 in 1078ms (next.js: 519ms, application-code: 559ms)
- GET /login 200 in 170ms (next.js: 16ms, application-code: 154ms)
-Erreur login : Error: No url specified for ActiveDirectory client.
-    at <unknown> (lib/ldap.ts:92:8)
-    at new Promise (<anonymous>)
-    at authenticate (lib/ldap.ts:82:10)
-    at POST (app/api/auth/login/route.ts:16:40)
-  90 |     const ad = new ActiveDirectory(config(userPrincipalNam...
-  91 |
-> 92 |     ad.authenticate(
-     |        ^
-  93 |       userPrincipalName,
-  94 |       password,
-  95 |       async (err: unknown, auth: unknown) => {
- POST /api/auth/login 500 in 803ms (next.js: 482ms, application-code: 321ms)
+Type 'string[]' is missing the following properties from type 'AttributeSpec': user, groupts(2739)
+(property) ReqProps.attributes: AttributeSpec
