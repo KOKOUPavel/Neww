@@ -1,0 +1,240 @@
+.wrap {
+  --ink: #14181f;
+  --ink-soft: #5b6472;
+  --line: #e3e7ec;
+  --line-strong: #cfd6de;
+  --surface: #ffffff;
+  --bg: #eef1f5;
+  --accent: #1f5fbf;
+  --accent-dark: #17408a;
+  --accent-soft: #e8f0fb;
+  --danger: #c0392b;
+  --danger-soft: #fdecea;
+  --radius: 12px;
+
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background:
+    radial-gradient(circle at 20% 15%, #f4f7fb 0%, transparent 45%),
+    radial-gradient(circle at 85% 90%, #e9eef6 0%, transparent 40%),
+    var(--bg);
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  color: var(--ink);
+}
+
+.card {
+  width: 100%;
+  max-width: 400px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: 0 1px 2px rgba(20, 24, 31, 0.04),
+    0 12px 32px rgba(20, 24, 31, 0.08);
+  overflow: hidden;
+}
+
+.head {
+  padding: 28px 32px 20px;
+  border-bottom: 1px solid var(--line);
+}
+
+.mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 9px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 22px;
+  margin-bottom: 16px;
+}
+
+.title {
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.subtitle {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  margin-top: 4px;
+}
+
+.form {
+  padding: 24px 32px 30px;
+}
+
+.field {
+  margin-bottom: 16px;
+}
+
+.field label {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.inputWrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.inputWrap > i {
+  position: absolute;
+  left: 12px;
+  font-size: 17px;
+  color: var(--ink-soft);
+  pointer-events: none;
+}
+
+.inputWrap input {
+  width: 100%;
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--ink);
+  padding: 11px 12px 11px 38px;
+  border: 1px solid var(--line-strong);
+  border-radius: 9px;
+  background: #fff;
+  transition: border-color 0.12s, box-shadow 0.12s;
+}
+
+.inputWrap input::placeholder {
+  color: #9aa4b1;
+}
+
+.inputWrap input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.reveal {
+  position: absolute;
+  right: 6px;
+  background: none;
+  border: none;
+  color: var(--ink-soft);
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 6px;
+  display: inline-flex;
+  font-size: 17px;
+}
+.reveal:hover {
+  color: var(--ink);
+  background: var(--bg);
+}
+
+.rowBetween {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 4px 0 20px;
+}
+
+.remember {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  color: var(--ink-soft);
+  cursor: pointer;
+  user-select: none;
+}
+.remember input {
+  width: 15px;
+  height: 15px;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.submit {
+  width: 100%;
+  font-family: inherit;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: #fff;
+  background: var(--accent);
+  border: none;
+  border-radius: 9px;
+  padding: 12px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background 0.12s;
+}
+.submit:hover:not(:disabled) {
+  background: var(--accent-dark);
+}
+.submit:disabled {
+  opacity: 0.65;
+  cursor: default;
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.error {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 13px;
+  line-height: 1.45;
+  padding: 10px 12px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+.error i {
+  font-size: 16px;
+  margin-top: 1px;
+  flex-shrink: 0;
+}
+
+.foot {
+  padding: 14px 32px;
+  border-top: 1px solid var(--line);
+  font-size: 12px;
+  color: var(--ink-soft);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: #fbfcfd;
+}
+.foot i {
+  font-size: 15px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation: none;
+  }
+  .submit,
+  .inputWrap input,
+  .reveal {
+    transition: none;
+  }
+}
