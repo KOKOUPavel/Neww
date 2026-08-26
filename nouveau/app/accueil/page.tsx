@@ -12,9 +12,8 @@ export default function AccueilPage() {
       }}
     >
       <div style={{ textAlign: "center" }}>
-        <p style={{ fontSize: 20, fontWeight: 600 }}>Connecté</p>
+        <p style={{ fontSize: 20, fontWeight: 600 }}>Connecté !!!</p>
         <p style={{ fontSize: 14, color: "#5b6472", marginTop: 6 }}>
-          L&apos;écran de chargement de fichier viendra ici.
         </p>
       </div>
     </main>

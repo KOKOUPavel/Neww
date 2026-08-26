@@ -55,7 +55,7 @@ export default function LoginPage() {
           </span>
           <h1 className={styles.title}>Connexion à l&apos;annuaire</h1>
           <p className={styles.subtitle}>
-            Utilisez votre identifiant réseau habituel.
+            Utilisez votre identifiant réseau.
           </p>
         </div>
 

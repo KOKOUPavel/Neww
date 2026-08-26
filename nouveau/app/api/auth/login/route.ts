@@ -12,7 +12,6 @@ export async function POST(request: Request) {
       );
     }
 
-    // Vérification de l'identité auprès de l'annuaire (Active Directory).
     const resultat = await authenticate(username, password);
 
     if (!resultat.ok) {
@@ -22,8 +21,7 @@ export async function POST(request: Request) {
       );
     }
 
-    // Connexion réussie. (La gestion des accès par table et la session
-    // seront ajoutées plus tard.)
+  
     return NextResponse.json({
       success: true,
       user: {
