@@ -93,6 +93,7 @@
   background: var(--accent-dark);
 }
 
+/* Aperçu */
 .apercu {
   background: var(--surface);
   border: 1px solid var(--line);

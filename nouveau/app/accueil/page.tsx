@@ -113,22 +113,34 @@ export default function ImportPage() {
     lecteur.readAsText(fichier);
   }
 
-  function exporterVersBase() {
-    // ─────────────────────────────────────────────────────────────
-    // À BRANCHER : envoi des lignes vers la base equipment.
-    // Une fois l'accès SQL Server (ou l'API) connu, on postera `lignes`
-    // vers une route serveur qui fera l'insertion.
-    //
-    // await fetch("/api/import/equipment", {
-    //   method: "POST",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify({ lignes }),
-    // });
-    // ─────────────────────────────────────────────────────────────
-    setMessage(
-      `Prêt à envoyer ${lignes.length} ligne${lignes.length > 1 ? "s" : ""}. ` +
-        ""
-    );
+  const [envoi, setEnvoi] = useState(false);
+
+  async function exporterVersBase() {
+    setEnvoi(true);
+    setMessage(null);
+    setErreur(null);
+    try {
+      const res = await fetch("/api/import/equipment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ lignes }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        setErreur(data.message ?? "L'insertion a échoué.");
+        return;
+      }
+      setMessage(
+        `${data.inserees} ligne${data.inserees > 1 ? "s" : ""} insérée${
+          data.inserees > 1 ? "s" : ""
+        } dans la base.`
+      );
+    } catch (err) {
+      console.error(err);
+      setErreur("Impossible de contacter le serveur.");
+    } finally {
+      setEnvoi(false);
+    }
   }
 
   const colonnesConnues = entetes.filter((c) => COLONNES.includes(c));
@@ -144,7 +156,7 @@ export default function ImportPage() {
         </p>
       </header>
 
-      {}
+      {/* Zone de sélection */}
       {lignes.length === 0 && (
         <section className={styles.dropzone}>
           <i className="ti ti-file-spreadsheet" aria-hidden="true" />
@@ -169,9 +181,9 @@ export default function ImportPage() {
           <i className="ti ti-alert-circle" aria-hidden="true" />
           <span>{erreur}</span>
         </div>
-      )}
+      )}      
 
-      {}
+      {/* Aperçu */}
       {lignes.length > 0 && (
         <section className={styles.apercu}>
           <div className={styles.apercuHead}>
@@ -230,9 +242,13 @@ export default function ImportPage() {
           </div>
 
           <div className={styles.actions}>
-            <button className={styles.btnPrimary} onClick={exporterVersBase}>
+            <button
+              className={styles.btnPrimary}
+              onClick={exporterVersBase}
+              disabled={envoi}
+            >
               <i className="ti ti-database-import" aria-hidden="true" />
-              Exporter vers la base
+              {envoi ? "Envoi en cours…" : "Exporter vers la base"}
             </button>
             {message && <span className={styles.message}>{message}</span>}
           </div>

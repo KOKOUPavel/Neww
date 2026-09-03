@@ -74,7 +74,7 @@ export default function LoginPage() {
               <input
                 id="username"
                 type="text"
-                placeholder="prenom.nom"
+                placeholder="username"
                 autoComplete="username"
                 autoCapitalize="none"
                 spellCheck={false}
@@ -135,7 +135,7 @@ export default function LoginPage() {
           </button>
         </form>
 
-        <div className={styles.foot}>
+        <div className={styles.foot}>        
           <i className="ti ti-server" aria-hidden="true" />
           Authentification via l&apos;annuaire de l&apos;entreprise (LDAP)
         </div>
