@@ -1,13 +1,8 @@
-// ─────────────────────────────────────────────────────────────
-// lib/tablesImport.ts
-// Définition des tables importables : colonnes et libellé.
-// Sert à la fois au front (aperçu, menu) et au back (liste blanche).
-// ─────────────────────────────────────────────────────────────
 
 export type DefinitionTable = {
-  cle: string; // identifiant technique (== nom de la table SQL)
-  libelle: string; // nom affiché dans le menu
-  colonnes: string[]; // colonnes attendues, dans l'ordre
+  cle: string;
+  libelle: string;
+  colonnes: string[];
 };
 
 export const TABLES: Record<string, DefinitionTable> = {
