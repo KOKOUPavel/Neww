@@ -1,21 +1,8 @@
 "use client";
 
 import { useState, useRef } from "react";
+import { TABLES, type DefinitionTable } from "@/lib/tablesImport";
 import styles from "./import.module.css";
-
-const COLONNES = [
-  "id",
-  "imei",
-  "date",
-  "created_at",
-  "equipment",
-  "option",
-  "available",
-  "sold",
-  "sale_date",
-  "price",
-  "ratioMontantJour",
-];
 
 type LigneImport = Record<string, string>;
 
@@ -53,11 +40,16 @@ function decouper(ligne: string, sep: string): string[] {
 }
 
 export default function ImportPage() {
+  const clesTables = Object.keys(TABLES);
+  const [tableCle, setTableCle] = useState<string>(clesTables[0]);
+  const def: DefinitionTable = TABLES[tableCle];
+
   const [nomFichier, setNomFichier] = useState<string | null>(null);
   const [entetes, setEntetes] = useState<string[]>([]);
   const [lignes, setLignes] = useState<LigneImport[]>([]);
   const [erreur, setErreur] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
+  const [envoi, setEnvoi] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   function reinitialiser() {
@@ -67,6 +59,11 @@ export default function ImportPage() {
     setErreur(null);
     setMessage(null);
     if (inputRef.current) inputRef.current.value = "";
+  }
+
+  function changerTable(cle: string) {
+    setTableCle(cle);
+    reinitialiser();
   }
 
   function onFichier(e: React.ChangeEvent<HTMLInputElement>) {
@@ -113,17 +110,15 @@ export default function ImportPage() {
     lecteur.readAsText(fichier);
   }
 
-  const [envoi, setEnvoi] = useState(false);
-
   async function exporterVersBase() {
     setEnvoi(true);
     setMessage(null);
     setErreur(null);
     try {
-      const res = await fetch("/api/import/equipment", {
+      const res = await fetch("/api/import", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ lignes }),
+        body: JSON.stringify({ table: tableCle, lignes }),
       });
       const data = await res.json();
       if (!res.ok || !data.success) {
@@ -133,7 +128,7 @@ export default function ImportPage() {
       setMessage(
         `${data.inserees} ligne${data.inserees > 1 ? "s" : ""} insérée${
           data.inserees > 1 ? "s" : ""
-        } dans la base.`
+        } dans ${def.libelle}.`
       );
     } catch (err) {
       console.error(err);
@@ -143,25 +138,41 @@ export default function ImportPage() {
     }
   }
 
-  const colonnesConnues = entetes.filter((c) => COLONNES.includes(c));
-  const colonnesInconnues = entetes.filter((c) => !COLONNES.includes(c));
+  const colonnesInconnues = entetes.filter((c) => !def.colonnes.includes(c));
 
   return (
     <main className={styles.page}>
       <header className={styles.head}>
-        <h1 className={styles.title}>Importer des équipements</h1>
+        <h1 className={styles.title}>Importer des données</h1>
         <p className={styles.subtitle}>
-          Chargez un fichier CSV ou TXT, vérifiez l&apos;aperçu, puis envoyez
-          les données vers la base.
+          Choisissez le type, chargez un fichier CSV ou TXT, vérifiez
+          l&apos;aperçu, puis envoyez les données vers la base.
         </p>
       </header>
 
-      {/* Zone de sélection */}
+      {/* Menu de sélection de la table */}
+      <section className={styles.typeRow}>
+        {clesTables.map((cle) => (
+          <button
+            key={cle}
+            className={`${styles.typeBtn} ${
+              cle === tableCle ? styles.typeBtnActive : ""
+            }`}
+            onClick={() => changerTable(cle)}
+          >
+            {TABLES[cle].libelle}
+          </button>
+        ))}
+      </section>
+
+      {}
       {lignes.length === 0 && (
         <section className={styles.dropzone}>
           <i className="ti ti-file-spreadsheet" aria-hidden="true" />
           <p className={styles.dropTitle}>Choisir un fichier</p>
-          <p className={styles.dropHint}>Format CSV ou TXT</p>
+          <p className={styles.dropHint}>
+            Format CSV ou TXT · colonnes attendues : {def.colonnes.join(", ")}
+          </p>
           <input
             ref={inputRef}
             type="file"
@@ -181,7 +192,7 @@ export default function ImportPage() {
           <i className="ti ti-alert-circle" aria-hidden="true" />
           <span>{erreur}</span>
         </div>
-      )}      
+      )}
 
       {/* Aperçu */}
       {lignes.length > 0 && (
@@ -193,8 +204,9 @@ export default function ImportPage() {
                 {nomFichier}
               </p>
               <p className={styles.apercuInfo}>
-                {lignes.length} ligne{lignes.length > 1 ? "s" : ""} ·{" "}
-                {entetes.length} colonne{entetes.length > 1 ? "s" : ""}
+                {def.libelle} · {lignes.length} ligne
+                {lignes.length > 1 ? "s" : ""} · {entetes.length} colonne
+                {entetes.length > 1 ? "s" : ""}
               </p>
             </div>
             <button className={styles.btnGhost} onClick={reinitialiser}>
@@ -208,7 +220,7 @@ export default function ImportPage() {
               <i className="ti ti-alert-triangle" aria-hidden="true" />
               <span>
                 Colonnes non reconnues : {colonnesInconnues.join(", ")}. Elles
-                ne correspondent pas à la table equipment.
+                ne correspondent pas à la table {def.libelle}.
               </span>
             </div>
           )}
@@ -221,7 +233,7 @@ export default function ImportPage() {
                     <th
                       key={col}
                       className={
-                        COLONNES.includes(col) ? "" : styles.colInconnue
+                        def.colonnes.includes(col) ? "" : styles.colInconnue
                       }
                     >
                       {col}
