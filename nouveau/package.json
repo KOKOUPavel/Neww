@@ -9,6 +9,8 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "activedirectory2": "^2.2.0",
+    "mssql": "^12.7.0",
     "next": "16.3.3",
     "react": "19.2.8",
     "react-dom": "19.2.8"
